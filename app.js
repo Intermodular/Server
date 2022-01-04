@@ -32,6 +32,9 @@ server.listen(8080,()=>{
     console.log("Servidor iniciado");
 });
 
+//Pocholo
+
+
 function getDatabase(){
     return database;
 }
