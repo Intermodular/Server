@@ -12,9 +12,9 @@ const nominas = require("./routes/Nominas");
 const pedidos = require("./routes/Pedidos");
 const productos = require("./routes/Productos");
 
-
+//bro mirar los users
 let database;
-const url = process.env.DB_CONNECTION;
+const url = "mongodb+srv://daniel:1234@cluster0.la1pl.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"//process.env.DB_CONNECTION;
 
 //Rutear las peticiones posts
 server.use("/api",employees);
@@ -44,8 +44,6 @@ server.listen(8080,()=>{
     console.log("Servidor iniciado");
 });
 
-//Pocholo
-//2
 
 function getDatabase(){
     return database;
