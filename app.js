@@ -2,18 +2,30 @@ const express = require("express");
 const server = express();
 const MongoClient = require("mongodb").MongoClient;
 require("dotenv/config");
-const postsRouter = require("./routes/posts");
-const getsRouter = require("./routes/gets");
-const putsRouter = require("./routes/puts");
-const deletesRouter = require("./routes/deletes");
+
+
+
+const employees = require("./routes/Employees");
+const extras = require("./routes/Extras");
+const mesas = require("./routes/Mesas");
+const nominas = require("./routes/Nominas");
+const pedidos = require("./routes/Pedidos");
+const productos = require("./routes/Productos");
+
+
 let database;
 const url = process.env.DB_CONNECTION;
 
 //Rutear las peticiones posts
-server.use("/api",postsRouter);
-server.use("/api",getsRouter);
-server.use("/api",putsRouter);
-server.use("/api",deletesRouter);
+server.use("/api",employees);
+server.use("/api",extras);
+server.use("/api",mesas);
+server.use("/api",nominas);
+server.use("/api",pedidos);
+server.use("/api",productos);
+
+
+
 
 //Conectar base de datos
 MongoClient.connect(url,(err,db)=>{
