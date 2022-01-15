@@ -34,13 +34,13 @@ router.post("/pedido",async (req,res) => {
 
 //Puts
 router.put("/pedido",async (req,res) => {
-    replaceInCollectionById("Pedidos",req.body,res,"Pedido editado","No existe ningun pedido con ese id (Update)");
+    utils.replaceInCollectionById("Pedidos",req.body,res,"Pedido editado","No existe ningun pedido con ese id (Update)");
 });
 
 
 //Delete
 router.delete("/pedido/id/:id",async (req,res) => {
-    deleteFromCollectionById("Pedidos",parseInt(req.params.id),res,"Pedido eliminado","No hay ningun pedido con ese id (Delete)");
+    utils.deleteFromCollectionById("Pedidos",parseInt(req.params.id),res,"Pedido eliminado","No hay ningun pedido con ese id (Delete)");
 });
 
 

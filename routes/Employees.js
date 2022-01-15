@@ -32,12 +32,12 @@ router.post("/empleados",async (req,res) => {
 
 //Puts
 router.put("/empleado",async (req,res) => {
-    replaceInCollectionById("Empleados",req.body,res,"Empleado editado","No existe ningun empleado con ese id (Update)");
+    utils.replaceInCollectionById("Empleados",req.body,res,"Empleado editado","No existe ningun empleado con ese id (Update)");
 });
 
 //Deletes
 router.delete("/empleado/id/:id",async (req,res) => {
-    deleteFromCollectionById("Empleados",parseInt(req.params.id),res,"Empleado eliminado","No hay ningun empleado con ese id (Delete)");
+    utils.deleteFromCollectionById("Empleados",parseInt(req.params.id),res,"Empleado eliminado","No hay ningun empleado con ese id (Delete)");
 });
 
 

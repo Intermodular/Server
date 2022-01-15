@@ -33,12 +33,12 @@ router.post("/producto",async (req,res) => {
 
 //Puts
 router.put("/producto",async (req,res) => {
-    replaceInCollectionById("Productos",req.body,res,"Producto editado","No existe ningun producto con ese id (Update)");
+    utils.replaceInCollectionById("Productos",req.body,res,"Producto editado","No existe ningun producto con ese id (Update)");
 });
 
 //Deletes
 router.delete("/producto/id/:id",async (req,res) => {
-    deleteFromCollectionById("Productos",parseInt(req.params.id),res,"Producto eliminado","No hay ningun producto con ese id (Delete)");   
+    utils.deleteFromCollectionById("Productos",parseInt(req.params.id),res,"Producto eliminado","No hay ningun producto con ese id (Delete)");   
 });
 
 module.exports = router;

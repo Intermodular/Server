@@ -32,12 +32,12 @@ router.post("/extra",async (req,res) => {
 
 //Puts
 router.put("/extra",async (req,res) => {
-    replaceInCollectionById("Extras",req.body,res,"Extra editado","No existe ningun extra con ese id (Update)");
+    utils.replaceInCollectionById("Extras",req.body,res,"Extra editado","No existe ningun extra con ese id (Update)");
 });
 
 //Deletes
 router.delete("/extra/id/:id",async (req,res) => {
-    deleteFromCollectionById("Extras",parseInt(req.params.id),res,"Extra eliminado","No hay ningun extra con ese id (Delete)");
+    utils.deleteFromCollectionById("Extras",parseInt(req.params.id),res,"Extra eliminado","No hay ningun extra con ese id (Delete)");
 });
 
 module.exports = router;

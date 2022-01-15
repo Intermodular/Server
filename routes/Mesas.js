@@ -33,12 +33,12 @@ router.post("/mesa",async (req,res) => {
 
 //Puts
 router.put("/mesa",async (req,res) => {
-    replaceInCollectionById("Mesas",req.body,res,"Mesa editada","No existe ningua mesa con ese id (Update)");
+    utils.replaceInCollectionById("Mesas",req.body,res,"Mesa editada","No existe ningua mesa con ese id (Update)");
 });
 
 //Delete
 router.delete("/mesa/id/:id",async (req,res) => {
-    deleteFromCollectionById("Mesas",parseInt(req.params.id),res,"Mesa eliminada","No hay ninguna mesa con ese id (Delete)");
+    utils.deleteFromCollectionById("Mesas",parseInt(req.params.id),res,"Mesa eliminada","No hay ninguna mesa con ese id (Delete)");
 });
 
 

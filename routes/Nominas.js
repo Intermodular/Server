@@ -32,12 +32,12 @@ router.post("/nomina",async (req,res) => {
 
 //Puts
 router.put("/nomina",async (req,res) => {
-    replaceInCollectionById("Nominas",req.body,res,"Nomina editada","No existe ninguna nomina con ese id (Update)");
+    utils.replaceInCollectionById("Nominas",req.body,res,"Nomina editada","No existe ninguna nomina con ese id (Update)");
 });
 
 //Deletes
 router.delete("/nomina/id/:id",async (req,res) => {
-    deleteFromCollectionById("Nominas",parseInt(req.params.id),res,"Nomina eliminada","No hay ninguna nomina con ese id (Delete)");    
+    utils.deleteFromCollectionById("Nominas",parseInt(req.params.id),res,"Nomina eliminada","No hay ninguna nomina con ese id (Delete)");    
 });
 
 module.exports = router;
