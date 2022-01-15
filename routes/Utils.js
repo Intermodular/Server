@@ -45,6 +45,13 @@ async function saveDocument(collectionName,newDocument,autoIncrementId,response,
     });
 }
 
+async function checkUserNameFromEmployeeExists(employee){
+    let database = app.getDatabase();
+    let collection = database.collection("Empleados");
+    const empleado = await collection.findOne({_id:{$ne:employee._id},usuario:employee.usuario}); //Para que funcione en el replace tmb hay que comprobar que la coincidencia sea con el usuario de otro empleado
+    return empleado != null;
+}
+
 //Funciones auxiliares: Puts
 async function replaceInCollectionById(collectionName,newDocument,response,succesMessage,notFoundMessage){
     let db = app.getDatabase();
@@ -80,8 +87,9 @@ async function deleteFromCollectionById(collectionName,id,response,succesMessage
     response.end();
 }
 
-exports.getListFromCollection = getListFromCollection
-exports.getDocumentFromCollectionById = getDocumentFromCollectionById
-exports.saveDocument = saveDocument
-exports.replaceInCollectionById = replaceInCollectionById
-exports.deleteFromCollectionById = deleteFromCollectionById
+exports.getListFromCollection = getListFromCollection;
+exports.getDocumentFromCollectionById = getDocumentFromCollectionById;
+exports.saveDocument = saveDocument;
+exports.checkUserNameFromEmployeeExists = checkUserNameFromEmployeeExists;
+exports.replaceInCollectionById = replaceInCollectionById;
+exports.deleteFromCollectionById = deleteFromCollectionById;

@@ -26,19 +26,35 @@ router.get("/empleado/id/:id",async (req,res) => {
 });
 
 //Posts
-router.post("/empleados",async (req,res) => {
-    utils.saveDocument("Empleados",req.body,true,res,"Empleado insertado","Error al introducir empleado");
+router.post("/empleado",async (req,res) => {
+    if(await utils.checkUserNameFromEmployeeExists(req.body)){
+        res.send("Error Usuario Ya Existe");
+        console.log("Error Usuario Ya Existe")
+        res.end();
+    }else{
+        utils.saveDocument("Empleados",req.body,true,res,"Empleado insertado","Error al introducir empleado");
+    }
+    
+    
 });
 
 //Puts
 router.put("/empleado",async (req,res) => {
-    utils.replaceInCollectionById("Empleados",req.body,res,"Empleado editado","No existe ningun empleado con ese id (Update)");
+    if(await utils.checkUserNameFromEmployeeExists(req.body)){
+        res.send("Error Usuario Ya Existe");
+        console.log("Error Usuario Ya Existe")
+        res.end();
+    }else{
+        utils.replaceInCollectionById("Empleados",req.body,res,"Empleado editado","No existe ningun empleado con ese id (Update)");
+    }
 });
 
 //Deletes
 router.delete("/empleado/id/:id",async (req,res) => {
     utils.deleteFromCollectionById("Empleados",parseInt(req.params.id),res,"Empleado eliminado","No hay ningun empleado con ese id (Delete)");
 });
+
+
 
 
 
