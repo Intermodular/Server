@@ -11,10 +11,12 @@ const mesas = require("./routes/Mesas");
 const nominas = require("./routes/Nominas");
 const pedidos = require("./routes/Pedidos");
 const productos = require("./routes/Productos");
+const zonas = require("./routes/Zonas");
+const tipos = require("./routes/Tipos")
 
 //bro mirar los users
 let database;
-const url = "mongodb+srv://daniel:1234@cluster0.la1pl.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"//process.env.DB_CONNECTION;
+const url =  "mongodb+srv://daniel:1234@cluster0.la1pl.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"//
 
 //Rutear las peticiones posts
 server.use("/api",employees);
@@ -23,8 +25,8 @@ server.use("/api",mesas);
 server.use("/api",nominas);
 server.use("/api",pedidos);
 server.use("/api",productos);
-
-
+server.use("/api",zonas);
+server.use("/api",tipos);
 
 
 //Conectar base de datos
@@ -38,7 +40,6 @@ MongoClient.connect(url,(err,db)=>{
     } 
 });
 
-//Peter
 
 server.listen(8080,()=>{
     console.log("Servidor iniciado");
