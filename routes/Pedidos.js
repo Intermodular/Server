@@ -1,4 +1,5 @@
 const express = require("express");
+const app = require("../app");
 const router = express.Router();
 router.use(express.json());
 const utils = require("./Utils")
@@ -25,6 +26,24 @@ router.get("/pedido/id/:id",async (req,res) => {
     }
     res.end();
 });
+
+router.get("/pedido/idMesa/:idMesa",async (req,res) =>{
+    let idMesa = parseInt(req.params.idMesa);
+    let db = app.getDatabase();
+    let collection = db.collection("Pedidos");
+    let pedido = await collection.findOne({"idMesa":idMesa});
+
+    if(pedido != null){
+        console.log("Pedido devuelto");
+        res.send(pedido);
+    }else{
+        console.log("No hay ningun pedido con ese idMesa (Get)");
+        res.sendStatus(404);
+    }
+    res.end();
+});
+    
+
 
 
 //Posts

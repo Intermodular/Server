@@ -14,8 +14,8 @@ async function getListFromCollection(collectionName){
 async function getDocumentFromCollectionById(collectionName,id){
     let database = app.getDatabase();
     let collection = database.collection(collectionName);
-    let empleado = await collection.findOne({"_id":id});
-    return empleado;
+    let document = await collection.findOne({"_id":id});
+    return document;
 }
 
 
@@ -27,8 +27,15 @@ async function saveDocument(collectionName,newDocument,autoIncrementId,response,
     let collection = database.collection(collectionName);
 
     if(autoIncrementId){
-        let listWithMaxId = await collection.find({}).sort({_id:-1}).limit(1).toArray();
-        let id = listWithMaxId[0]._id + 1;
+        let documentWithId0 = await collection.findOne({"_id":0});
+        let id
+        if(documentWithId0 == null){
+            id = 0;
+        }else{
+            let listWithMaxId = await collection.find({}).sort({_id:-1}).limit(1).toArray();
+            id = listWithMaxId[0]._id + 1;
+        }
+
         newDocument._id = id;
     }
 
@@ -38,7 +45,7 @@ async function saveDocument(collectionName,newDocument,autoIncrementId,response,
             response.sendStatus(403);
         }else{
             console.log(succesMessage);
-            response.sendStatus(200);
+            response.send("AsignedId=" + newDocument._id);
         }
         
         response.end();
