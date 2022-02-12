@@ -21,7 +21,6 @@ async function getDocumentFromCollectionById(collectionName,id){
 
 
 //Funciones auxiliares: Posts
-
 async function saveDocument(collectionName,newDocument,autoIncrementId,response,succesMessage,errorMessage){
     let database = app.getDatabase();
     let collection = database.collection(collectionName);
@@ -94,9 +93,25 @@ async function deleteFromCollectionById(collectionName,id,response,succesMessage
     response.end();
 }
 
+async function updateZoneOnTableDelete(tableId, response, successMessage, errorMessage) {
+    let db = app.getDatabase();
+    let table = await db.collection("Mesas").findOne({"_id":tableId});
+    let zone = table.zona;
+    let updateResult = db.collection("Zonas").updateOne({"Nombre":zone}, {$inc: {"NºMesas": -1}});
+
+    if (updateResult.updateCount == 1) {
+        response.sendStatus(200);
+        console.log(successMessage);
+    } else {
+        response.sendStatus(404);
+        console.log(errorMessage);
+    }
+}
+
 exports.getListFromCollection = getListFromCollection;
 exports.getDocumentFromCollectionById = getDocumentFromCollectionById;
 exports.saveDocument = saveDocument;
 exports.checkUserNameFromEmployeeExists = checkUserNameFromEmployeeExists;
 exports.replaceInCollectionById = replaceInCollectionById;
 exports.deleteFromCollectionById = deleteFromCollectionById;
+exports.updateZoneOnTableDelete = updateZoneOnTableDelete;
