@@ -63,10 +63,4 @@ router.delete("/pedido/id/:id",async (req,res) => {
 });
 
 
-
-
-
-
-
-
 module.exports = router;
