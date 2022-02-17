@@ -108,6 +108,21 @@ async function updateZoneOnTableDelete(tableId, response, successMessage, errorM
     }
 }
 
+async function updateZoneOnTableInsertion(tableId, response, successMessage, errorMessage) {
+    let db = app.getDatabase();
+    let table = await db.collection("Mesas").findOne({"_id":tableId});
+    let zone = table.zona;
+    let updateResult = db.collection("Zonas").updateOne({"Nombre":zone}, {$inc: {"numMesas": 1}});
+
+    if (updateResult.updateCount == 1) {
+        response.sendStatus(200);
+        console.log(successMessage);
+    } else {
+        response.sendStatus(404);
+        console.log(errorMessage);
+    }
+}
+
 exports.getListFromCollection = getListFromCollection;
 exports.getDocumentFromCollectionById = getDocumentFromCollectionById;
 exports.saveDocument = saveDocument;

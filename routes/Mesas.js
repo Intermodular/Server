@@ -30,7 +30,7 @@ router.get("/mesa/id/:id",async (req,res) => {
 //Post
 router.post("/mesa",async (req,res) => {
     utils.saveDocument("Mesas",req.body,true,res,"Mesa insertada","Error al introducir mesa (_id duplicado)");
-    utils.updateZoneOnTableDelete(parseInt(req.params.id), res, "Zona actualizada", "Ha ocurrido un error al intentar actualizar la zona")
+    utils.updateZoneOnTableDelete(parseInt(req.params.id), res, "Zona actualizada", "Ha ocurrido un error al intentar actualizar la zona");
 });
 
 //Puts
@@ -41,7 +41,7 @@ router.put("/mesa",async (req,res) => {
 //Delete
 router.delete("/mesa/id/:id",async (req,res) => {
     utils.deleteFromCollectionById("Mesas",parseInt(req.params.id),res,"Mesa eliminada","No hay ninguna mesa con ese id (Delete)");
-    utils.updateZoneOnTableDelete(parseInt(req.params.id), res, "Zona actualizada", "Ha ocurrido un error al intentar actualizar la zona")
+    utils.updateZoneOnTableDelete(parseInt(req.params.id), res, "Zona actualizada", "Ha ocurrido un error al intentar actualizar la zona");
 });
 
 
