@@ -97,7 +97,7 @@ async function updateZoneOnTableDelete(tableId, response, successMessage, errorM
     let db = app.getDatabase();
     let table = await db.collection("Mesas").findOne({"_id":tableId});
     let zone = table.zona;
-    let updateResult = db.collection("Zonas").updateOne({"Nombre":zone}, {$inc: {"NºMesas": -1}});
+    let updateResult = db.collection("Zonas").updateOne({"Nombre":zone}, {$inc: {"numMesas": -1}});
 
     if (updateResult.updateCount == 1) {
         response.sendStatus(200);
