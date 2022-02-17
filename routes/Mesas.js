@@ -30,7 +30,7 @@ router.get("/mesa/id/:id",async (req,res) => {
 //Post
 router.post("/mesa",async (req,res) => {
     utils.saveDocument("Mesas",req.body,true,res,"Mesa insertada","Error al introducir mesa (_id duplicado)");
-    utils.updateZoneOnTableDelete(parseInt(req.params.id), res, "Zona actualizada", "Ha ocurrido un error al intentar actualizar la zona");
+    utils.updateZoneOnTableInsertion(parseInt(req.params.id), res, "Zona actualizada", "Ha ocurrido un error al intentar actualizar la zona");
 });
 
 //Puts
