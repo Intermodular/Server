@@ -27,7 +27,7 @@ async function saveDocument(collectionName,newDocument,autoIncrementId,response,
 
     if(autoIncrementId){
         let documentWithId0 = await collection.findOne({"_id":0});
-        let id
+        let id;
         if(documentWithId0 == null){
             id = 0;
         }else{
