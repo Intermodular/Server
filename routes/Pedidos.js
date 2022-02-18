@@ -48,7 +48,18 @@ router.get("/pedido/idMesa/:idMesa",async (req,res) =>{
 
 //Posts
 router.post("/pedido",async (req,res) => {
-    utils.saveDocument("Pedidos",req.body,true,res,"Pedido insertado","Error al introducir pedido");
+    let db = app.getDatabase();
+    let collection = db.collection("Pedidos");
+    let pedido = await collection.findOne({"idMesa":req.body.idMesa});
+    if(pedido == null){
+
+        utils.saveDocument("Pedidos",req.body,true,res,"Pedido insertado","Error al introducir pedido");
+
+    }else{
+        res.send("Error idMesa repetido");
+        res.end();
+    }
+    
 });
 
 //Puts
