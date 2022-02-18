@@ -130,3 +130,4 @@ exports.checkUserNameFromEmployeeExists = checkUserNameFromEmployeeExists;
 exports.replaceInCollectionById = replaceInCollectionById;
 exports.deleteFromCollectionById = deleteFromCollectionById;
 exports.updateZoneOnTableDelete = updateZoneOnTableDelete;
+exports.updateZoneOnTableInsertion = updateZoneOnTableInsertion;
