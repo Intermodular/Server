@@ -61,7 +61,7 @@ router.put("/empleado",async (req,res) => {
         console.log("Error Usuario con id" + req.body._id +" Ya Existe")
         res.end();
     }else{
-        utils.replaceInCollectionById("Empleados",req.body,res,"Empleado editado","No existe ningun empleado con ese id (Update)");
+        updateEmpleadoAndNominas(req.body,res);
     }
 });
 
@@ -70,9 +70,25 @@ router.delete("/empleado/id/:id",async (req,res) => {
     utils.deleteFromCollectionById("Empleados",parseInt(req.params.id),res,"Empleado eliminado","No hay ningun empleado con ese id (Delete)");
 });
 
-
-
-
-
+async function updateEmpleadoAndNominas(empleado,response){
+    let db = app.getDatabase();
+    let empleados = db.collection("Empleados");
+    let nominas = db.collection("Nominas");
+    console.log(empleado);
+    let oldEmpleado = await empleados.findOne({"_id":empleado._id});
+    empleados.replaceOne({"_id":empleado._id},empleado,(err,result) => {
+        if(err) throw err;
+        if(result.modifiedCount != 0){
+            nominas.updateMany({"idEmpleado":oldEmpleado._id},
+            {$set: {"apellidoEmpleado":empleado.apellido, "nombreEmpleado": empleado.nombre, "dniEmpleado":empleado.dni, "direccionEmpleado":empleado.dir}}),
+            response.sendStatus(200);
+            console.log("Empleado editado, nominas actualizadas");
+        }else{
+            response.sendStatus(404);
+            console.log("No existe ningun empleado con ese id (Update)");
+        }
+        response.end();
+    });
+}
 
 module.exports = router;

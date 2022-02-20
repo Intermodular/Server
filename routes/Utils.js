@@ -93,33 +93,18 @@ async function deleteFromCollectionById(collectionName,id,response,succesMessage
     response.end();
 }
 
-async function updateZoneOnTableDelete(tableId, response, successMessage, errorMessage) {
+async function updateZoneOnTableCollectionChange(table, response) {
     let db = app.getDatabase();
-    let table = await db.collection("Mesas").findOne({"_id":tableId});
-    let zone = table.zona;
-    let updateResult = db.collection("Zonas").updateOne({"Nombre":zone}, {$inc: {"numMesas": -1}});
+    let mesas = db.collection("Mesas");
+    let zonas = db.collection("Zonas");
+    let cursor = await mesas.find({"zona":table.zona});
+    let tableCount = await cursor.count();
+    let updateResult = await zonas.updateOne({"nombre":table.zona}, {$set:{"numMesas":tableCount}});
 
     if (updateResult.updateCount == 1) {
-        response.sendStatus(200);
-        console.log(successMessage);
+        console.log("Zona actualizada");
     } else {
-        response.sendStatus(404);
-        console.log(errorMessage);
-    }
-}
-
-async function updateZoneOnTableInsertion(tableId, response, successMessage, errorMessage) {
-    let db = app.getDatabase();
-    let table = await db.collection("Mesas").findOne({"_id":tableId});
-    let zone = table.zona;
-    let updateResult = db.collection("Zonas").updateOne({"Nombre":zone}, {$inc: {"numMesas": 1}});
-
-    if (updateResult.updateCount == 1) {
-        response.sendStatus(200);
-        console.log(successMessage);
-    } else {
-        response.sendStatus(404);
-        console.log(errorMessage);
+        console.log("Zona no se ha actualizado correctamente");
     }
 }
 
@@ -129,5 +114,4 @@ exports.saveDocument = saveDocument;
 exports.checkUserNameFromEmployeeExists = checkUserNameFromEmployeeExists;
 exports.replaceInCollectionById = replaceInCollectionById;
 exports.deleteFromCollectionById = deleteFromCollectionById;
-exports.updateZoneOnTableDelete = updateZoneOnTableDelete;
-exports.updateZoneOnTableInsertion = updateZoneOnTableInsertion;
+exports.updateZoneOnTableCollectionChange = updateZoneOnTableCollectionChange;

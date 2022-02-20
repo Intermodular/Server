@@ -1,8 +1,8 @@
 const express = require("express");
+const app = require("../app");
 const router = express.Router();
 router.use(express.json());
 const utils = require("./Utils")
-const zonas = require("./Zonas");
 
 
 //Gets
@@ -27,10 +27,24 @@ router.get("/mesa/id/:id",async (req,res) => {
     res.end();
 });
 
+router.get("/mesa/numero/:numero",async (req,res) => {
+    let database = app.getDatabase();
+    let collection = database.collection("Mesas");
+    const mesa = await collection.findOne({numero:parseInt(req.params.numero)});
+    if(mesa == null){
+        res.sendStatus(404);
+        console.log("Mesa not found");
+
+    }else{
+        res.send(mesa);
+        console.log("Mesa devuelto");
+    }
+    res.end();
+});
+
 //Post
 router.post("/mesa",async (req,res) => {
-    utils.saveDocument("Mesas",req.body,true,res,"Mesa insertada","Error al introducir mesa (_id duplicado)");
-    utils.updateZoneOnTableInsertion(parseInt(req.params.id), res, "Zona actualizada", "Ha ocurrido un error al intentar actualizar la zona");
+    saveMesa(req.body,res);
 });
 
 //Puts
@@ -40,9 +54,53 @@ router.put("/mesa",async (req,res) => {
 
 //Delete
 router.delete("/mesa/id/:id",async (req,res) => {
-    utils.deleteFromCollectionById("Mesas",parseInt(req.params.id),res,"Mesa eliminada","No hay ninguna mesa con ese id (Delete)");
-    utils.updateZoneOnTableDelete(parseInt(req.params.id), res, "Zona actualizada", "Ha ocurrido un error al intentar actualizar la zona");
+    deleteMesa(req.params.id, res)
 });
 
+async function saveMesa(mesa, res) {    
+    let db = app.getDatabase();
+    let collection = db.collection("Mesas");
+
+    let documentWithId0 = await collection.findOne({"_id":0});
+    let id;
+    if(documentWithId0 == null){
+        id = 0;
+    }else{
+        let listWithMaxId = await collection.find({}).sort({_id:-1}).limit(1).toArray();
+        id = listWithMaxId[0]._id + 1;
+    }
+    mesa._id = id;
+
+    collection.insertOne(mesa, (err,result) => {
+        if(err){
+            console.log("Error al insertar Mesa");
+            res.sendStatus(403);
+        }else{
+            utils.updateZoneOnTableCollectionChange(mesa, res);
+            console.log("Mesa insertada");            
+            res.send("AsignedId=" + mesa._id);
+        }
+        
+        res.end();
+    });
+}
+
+async function deleteMesa(mesaId,res){
+    let db = app.getDatabase();
+    let collection = db.collection("Mesas");
+    let mesa = await collection.findOne({"_id":parseInt(mesaId)});
+    console.log(mesa);
+    let deleteResult = await collection.deleteOne({"_id":parseInt(mesaId)});
+
+    if(deleteResult.deletedCount == 1){
+        utils.updateZoneOnTableCollectionChange(mesa, res);
+        res.sendStatus(200);
+        console.log("Mesa eliminada");
+    }else{
+        res.sendStatus(404);
+        console.log("La mesa no se ha eliminado");
+    }
+    res.end();
+}
 
 module.exports = router;
