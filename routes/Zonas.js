@@ -28,6 +28,21 @@ router.get("/zona/id/:id",async (req,res) => {
     res.end();
 });
 
+router.get("/zona/nombre/:nombre",async (req,res) => {
+    let database = app.getDatabase();
+    let collection = database.collection("Zonas");
+    const zona = await collection.findOne({nombre:req.params.nombre});
+    if(zona == null){
+        res.sendStatus(404);
+        console.log("Zona not found");
+
+    }else{
+        res.send(zona);
+        console.log("Zona devuelto");
+    }
+    res.end();
+});
+
 
 //Posts
 router.post("/zona",async (req,res) => {
