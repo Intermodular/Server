@@ -74,13 +74,12 @@ async function updateEmpleadoAndNominas(empleado,response){
     let db = app.getDatabase();
     let empleados = db.collection("Empleados");
     let nominas = db.collection("Nominas");
-    console.log(empleado);
-    let oldEmpleado = await empleados.findOne({"_id":empleado._id});
+    
     empleados.replaceOne({"_id":empleado._id},empleado,(err,result) => {
         if(err) throw err;
         if(result.modifiedCount != 0){
-            nominas.updateMany({"idEmpleado":oldEmpleado._id},
-            {$set: {"apellidoEmpleado":empleado.apellido, "nombreEmpleado": empleado.nombre, "dniEmpleado":empleado.dni, "direccionEmpleado":empleado.dir}}),
+            nominas.updateMany({"idEmpleado":empleado._id},
+            {$set: {"nombreEmpleado": empleado.nombre,"apellidoEmpleado":empleado.apellido, "dniEmpleado":empleado.dni, "direccionEmpleado":empleado.direccion}}),
             response.sendStatus(200);
             console.log("Empleado editado, nominas actualizadas");
         }else{
