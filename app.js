@@ -14,6 +14,7 @@ const productos = require("./routes/Productos");
 const zonas = require("./routes/Zonas");
 const tipos = require("./routes/Tipos");
 const tickets = require("./routes/Tickets");
+const reservas = require("./routes/Reservas");
 
 //bro mirar los users
 let database;
@@ -29,6 +30,7 @@ server.use("/api",productos);
 server.use("/api",zonas);
 server.use("/api",tipos);
 server.use("/api",tickets);
+server.use("/api",reservas);
 
 
 //Conectar base de datos
