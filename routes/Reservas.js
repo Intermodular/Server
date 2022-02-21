@@ -67,7 +67,10 @@ router.delete("/reserva/id/:id",async (req,res) =>{
     utils.deleteFromCollectionById("Reservas",parseInt(req.params.id),res,"Reserva eliminada","No hay ninguna reserva con ese id (Delete)")
 });
 
-
+//Puts
+router.put("/reserva",async (req,res) => {
+    utils.replaceInCollectionById("Reservas",req.body,res,"Reserva editada","No hay ninguna reserva con ese id (Update)");
+});
 
 //Aux 
 
