@@ -18,7 +18,7 @@ const reservas = require("./routes/Reservas");
 
 //bro mirar los users
 let database;
-const url =  "mongodb+srv://daniel:1234@cluster0.la1pl.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"//
+const url =  process.env.DB_CONNECTION
 
 //Rutear las peticiones posts
 server.use("/api",employees);
@@ -45,7 +45,7 @@ MongoClient.connect(url,(err,db)=>{
 });
 
 
-server.listen(8080,()=>{
+server.listen(3000,()=>{
     console.log("Servidor iniciado");
 });
 
